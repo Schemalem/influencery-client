@@ -5,11 +5,26 @@ import styled from "styled-components";
 const InfluencerSearch = () => {
   const [influencers, setInfluencers] = useState(null);
   const [searchString, setSearchString] = useState("");
-  // const [platformString, setPlatformString] = useState("all");
+  const [platformString, setPlatformString] = useState("all");
 
   useEffect(() => {
     getInfluencers();
   }, []);
+
+
+  const searchBar = (influencers) => {
+    return influencers?.filter((influencer) => {
+      return influencer.handle.toLowerCase().includes(searchString.toLowerCase()) ||
+      influencer.platform.name.toLowerCase().includes(searchString.toLowerCase()) ||
+      influencer.tags.some((tag) => tag.name.toLowerCase().includes(searchString.toLowerCase()))
+          });
+  }
+
+  const platFilter = (influencers) => {
+  return influencers?.filter((influencer) => {
+    return influencer.platform.name.includes(platformString)
+        });
+  }
 
   const getInfluencers = () =>
     fetch("http://localhost:3000/api/v1/influencers", {
@@ -21,6 +36,7 @@ const InfluencerSearch = () => {
       .then((response) => response.json())
       .then((data) => setInfluencers(data));
 
+
   return (
     <div>
       <SearchInputContainer>
@@ -30,7 +46,7 @@ const InfluencerSearch = () => {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
-        {/* <SelectInput
+        { <SelectInput
           value={platformString}
           onChange={(e) => setPlatformString(e.target.value)}
           name="platforms"
@@ -42,12 +58,12 @@ const InfluencerSearch = () => {
           <option value="facebook">Facebook</option>
           <option value="tiktok">Tik-Tok</option>
           <option value="youtube">Youtube</option>
-        </SelectInput> */}
+        </SelectInput> }
       </SearchInputContainer>
       <SearchContainer>
         {!influencers && <Loader />}
         <div>
-          {influencers?.map((inf, i) => (
+          {searchBar(influencers)?.map((inf, i) => (
             <InfluencerCard influencer={inf} key={"inf_card_" + i} />
           ))}
         </div>
