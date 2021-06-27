@@ -17,12 +17,12 @@ const InfluencerSearch = () => {
       return influencers
     }
     else {
-    return influencers.filter((influencer) => {
-      return influencer.handle.toLowerCase().includes(searchString.toLowerCase()) ||
-      influencer.platform.name.toLowerCase().includes(searchString.toLowerCase()) ||
-      influencer.tags.some((tag) => tag.name.toLowerCase().includes(searchString.toLowerCase()))
-    });
-}
+      return influencers.filter((influencer) => {
+        return influencer.handle.toLowerCase().includes(searchString.toLowerCase()) ||
+        influencer.platform.name.toLowerCase().includes(searchString.toLowerCase()) ||
+        influencer.tags.some((tag) => tag.name.toLowerCase().includes(searchString.toLowerCase()))
+      });
+    }
   }
 
 // create variable to filter influencers by platform selected
