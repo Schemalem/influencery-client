@@ -13,29 +13,37 @@ const InfluencerSearch = () => {
 
 // create variable to filter influencers by what is typed
   const searchBar = (influencers) => {
+    const stringArr = searchString.split(" ");
+    const results = [];
+
     if (searchString === "") {
-      return influencers
+      return influencers;
     }
-    else {
-      return influencers.filter((influencer) => {
-        return influencer.handle.toLowerCase().includes(searchString.toLowerCase()) ||
-        influencer.platform.name.toLowerCase().includes(searchString.toLowerCase()) ||
-        influencer.tags.some((tag) => tag.name.toLowerCase().includes(searchString.toLowerCase()))
+
+    stringArr.forEach((term) => {
+      influencers.forEach((influencer) => {
+        if (influencer.handle.toLowerCase().includes(term.toLowerCase())) {
+          results.push(influencer);
+        } else if (influencer.platform.name.toLowerCase().includes(term.toLowerCase())) {
+          results.push(influencer);
+        } else if (influencer.tags.some((tag) => tag.name.toLowerCase().includes(term.toLowerCase()))) {
+          results.push(influencer);
+        }
       });
-    }
-  }
+    });
+
+    return results;
+  };
 
 // create variable to filter influencers by platform selected
   const platFilter = (influencers) => {
-    if (platformString == "" || platformString == "all") {
-      return influencers
+    if (platformString === "" || platformString === "all") {
+      return influencers;
     }
-    else {
-      return influencers.filter((influencer) => {
-      return influencer.platform.name === platformString
-      });
-    }
-  }
+    return influencers.filter((influencer) => {
+      return influencer.platform.name === platformString;
+    });
+  };
 
 // ensure that platform filter can be applied on top of search bar use
   const allFilters = platFilter(searchBar(influencers))
