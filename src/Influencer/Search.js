@@ -32,7 +32,8 @@ const InfluencerSearch = () => {
       });
     });
 
-    return results;
+    const uniqResults = results.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+    return uniqResults;
   };
 
 // create variable to filter influencers by platform selected
